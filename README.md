@@ -2,11 +2,6 @@
 
 Este projeto consiste em um sistema web simples de gerenciamento de tarefas, desenvolvido com **JavaServer Faces (JSF)**, **PrimeFaces**, **Hibernate** e **JPA**, utilizando **PostgreSQL** como banco de dados.
 
-## 📑 Sumário
-
-1. [✅ Funcionalidades Implementadas](#-funcionalidades-implementadas)
-2. [⚙️ Instruções para Execução em Ambiente Local](#instrucoes-para-execucao-em-ambiente-local)
-
 A aplicação permite ao usuário:
 - Cadastrar novas tarefas;
 - Editar tarefas existentes;
