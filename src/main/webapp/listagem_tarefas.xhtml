@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Listagem de Tarefas</title>
+</h:head>
+
+<h:body>
+    <h:form>
+        <p:panel header="Cadastrar Tarefa">
+            <!-- Filtros de Busca -->
+            <h:panelGrid columns="2">
+                <h:outputLabel for="titulo" value="Título/Descrição:"/>
+                <p:inputText id="titulo" value="#{taskBean.titleOrDescFilter}"/>
+
+                <h:outputLabel for="responsavel" value="Responsável:" />
+                <p:selectOneMenu id="responsavel" value="#{taskBean.responsibleFilter}">
+                    <f:selectItem itemLabel="Selecione" itemValue="#{null}" noSelectionOption="true" />
+                    <f:selectItems value="#{taskBean.responsible}" var="resp"
+                                   itemValue="#{resp}" itemLabel="#{resp}" />
+                </p:selectOneMenu>
+
+                <h:outputLabel for="situacao" value="Situação:" />
+                <p:selectOneMenu id="situacao" value="#{taskBean.statusFilter}">
+                    <f:selectItems value="#{taskBean.status}" var="status"
+                                   itemValue="#{status}" itemLabel="#{status}" />
+                </p:selectOneMenu>
+
+                <p:outputPanel styleClass="ui-g-12 ui-md-12 button-panel">
+                    <p:commandButton value="Buscar Tarefas" action="#{taskBean.search()}" update="tabelaTarefas" icon="pi pi-search" style="margin-right: 1rem;"/>
+                    <p:commandButton value="Limpar filtros" action="#{taskBean.clearFilter()}" update="tabelaTarefas situacao responsavel" styleClass="ui-button-outlined" icon="pi pi-filter-slash"/>
+                </p:outputPanel>
+            </h:panelGrid>
+
+            <!-- Tabela de Tarefas -->
+            <p:dataTable id="tabelaTarefas" value="#{taskBean.listTasks}" var="tarefa"
+                         rowIndexVar="index" style="margin-top:20px">
+
+                <p:column headerText="Número" style="width: 5%; text-align: center">
+                    <h:outputText value="#{index + 1}" />
+                </p:column>
+
+                <p:column headerText="Título">
+                    <h:outputText value="#{tarefa.title}" />
+                </p:column>
+
+                <p:column headerText="Descrição">
+                    <h:outputText value="#{tarefa.description}" />
+                </p:column>
+
+                <p:column headerText="Responsável" sortBy="#{tarefa.responsible}" style="width: 16%; text-align: center">
+                    <h:outputText value="#{tarefa.responsible}" />
+                </p:column>
+
+                <p:column headerText="Ações">
+                    <p:commandButton value="Editar" action="#{taskBean.update(tarefa)}"  styleClass="ui-button-secondary"/>
+                    <p:spacer width="8%"/>
+                    <p:commandButton value="Excluir" action="#{taskBean.delete(tarefa)}" update="tabelaTarefas" styleClass="ui-button-danger"/>
+                    <p:spacer width="8%"/>
+                    <p:commandButton value="Concluir" action="#{taskBean.finishedTask(tarefa)}" rendered="#{tarefa.status eq 'Em andamento'}" update="tabelaTarefas" styleClass="ui-button-success"/>
+                </p:column>
+            </p:dataTable>
+            <p:commandButton icon="pi pi-plus" action="cadastrar_tarefa?faces-redirect=true"
+                             style="position: fixed; bottom: 20px; right: 20px; border-radius: 50%; width: 50px; height: 50px; font-size: 20px"
+                             styleClass="ui-button-success"/>
+
+        </p:panel>
+    </h:form>
+</h:body>
+
+<!--<h:outputScript>
+    window.onpageshow = function (event) {
+        if (event.persisted || window.performance.navigation.type === 2) {
+            window.location.reload();
+        }
+    }
+</h:outputScript>-->
+</html>

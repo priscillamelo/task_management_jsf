@@ -1,0 +1,16 @@
+.col-numero {
+    width: 5%;
+    text-align: center;
+}
+
+.col-titulo {
+    width: 30%;
+}
+
+.col-descricao {
+    width: 65%;
+}
+
+.col-responsavel {
+    width: 10%;
+}

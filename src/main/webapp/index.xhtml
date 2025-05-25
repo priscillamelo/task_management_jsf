@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+
+<h:head>
+    <title>Gerenciador de Tarefas</title>
+</h:head>
+<h:body>
+    <h1>Gerenciador de Tarefas</h1>
+
+    <h2>Nova Tarefa / Editar Tarefa</h2>
+    <h:form>
+        <h:panelGrid columns="2">
+            <h:outputLabel value="Título: " for="title"/>
+            <h:inputText id="title" value="#{taskBean.task.title}" required="true"/>
+
+            <h:outputLabel value="Descrição: " for="desc"/>
+            <h:inputTextarea id="desc" value="#{taskBean.task.description}"/>
+            
+            <h:outputLabel value="Responsável: " for="responsible"/>
+             	<h:selectOneMenu id="responsible" value="#{taskBean.task.responsible}">
+            	<f:selectItem itemLabel="Selecione" itemValue=""/>
+               	<f:selectItems value="#{taskBean.responsible}" />
+             </h:selectOneMenu>
+             
+             <h:outputLabel value="Prioridade: " for="priority"/>
+             	<h:selectOneMenu id="priority" value="#{taskBean.task.priority}">
+            	<f:selectItem itemLabel="Selecione" itemValue=""/>
+               	<f:selectItems value="#{taskBean.priorities}" />
+             </h:selectOneMenu>
+            
+            <h:outputLabel value="Prazo:" for="dead"/>
+            <h:inputText id="dead" value="#{taskBean.task.deadline}">
+                 <f:convertDateTime pattern="dd/MM/yyyy" /> </h:inputText>
+
+            <h:commandButton value="Salvar" action="#{taskBean.save}"/>
+            <h:commandButton value="Nova Tarefa" action="#{taskBean.clearTask}" immediate="true"/>
+        </h:panelGrid>
+    </h:form>
+
+    <h2>Tarefas Cadastradas</h2>
+    <h:form>
+        <h:dataTable value="#{taskBean.listTasks}" var="task" border="1">
+            <h:column>
+                <f:facet name="header">ID</f:facet>
+                #{task.id}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Título</f:facet>
+                #{task.title}
+            </h:column>
+             <h:column>
+                <f:facet name="header">Status</f:facet>
+                #{task.status}
+            </h:column>
+            <h:column>
+                <f:facet name="header">Prazo</f:facet>
+                <h:outputText value="#{task.deadline}">
+                     <f:convertDateTime pattern="dd/MM/yyyy" />
+                </h:outputText>
+            </h:column>
+            <!-- <h:column>
+               <f:facet name="header">Ações</f:facet>
+               <h:commandButton value="Editar" action="#{taskBean.setCurrentTask(task)}" /> 
+               <h:commandButton value="Excluir" action="#{taskBean.delete(task)}" onclick="return confirm('Tem certeza?');"/>
+            </h:column> -->
+        </h:dataTable>
+    </h:form>
+
+</h:body>
+</html>
