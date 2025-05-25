@@ -4,8 +4,8 @@ Este projeto consiste em um sistema web simples de gerenciamento de tarefas, des
 
 ## 📑 Sumário
 
-1. [✅ Funcionalidades Implementadas](#-funcionalidades-implementadas)  
-2. [⚙️ Instruções para Execução em Ambiente Local](#-instruções-para-execução-em-ambiente-local)  
+1. [✅ Funcionalidades Implementadas](#-funcionalidades-implementadas)
+2. [⚙️ Instruções para Execução em Ambiente Local](#instrucoes-para-execucao-em-ambiente-local)
 
 A aplicação permite ao usuário:
 - Cadastrar novas tarefas;
