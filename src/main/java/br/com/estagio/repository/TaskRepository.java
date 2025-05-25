@@ -79,7 +79,7 @@ public class TaskRepository implements Serializable {
 	public List<Task> findAllTasks() {
 		EntityManager em = JPAUtil.getEntityManager();
 		try {
-			String jpql = "SELECT t FROM Task t WHERE t.status = :status ORDER BY t.id";
+			String jpql = "SELECT t FROM Task t WHERE t.status = :status ORDER BY t.deadline ASC ";
 			TypedQuery<Task> query = em.createQuery(jpql, Task.class);
 			query.setParameter("status", Status.EM_ANDAMENTO.getStatus());
 			return query.getResultList();

@@ -31,7 +31,7 @@
 
                 <p:outputPanel styleClass="ui-g-12 ui-md-12 button-panel">
                     <p:commandButton value="Buscar Tarefas" action="#{taskBean.search()}" update="tabelaTarefas" icon="pi pi-search" style="margin-right: 1rem;"/>
-                    <p:commandButton value="Limpar filtros" action="#{taskBean.clearFilter()}" update="tabelaTarefas situacao responsavel" styleClass="ui-button-outlined" icon="pi pi-filter-slash"/>
+                    <p:commandButton value="Limpar filtros" action="#{taskBean.clearFilter()}" update="tabelaTarefas titulo situacao responsavel" styleClass="ui-button-outlined" icon="pi pi-filter-slash"/>
                 </p:outputPanel>
             </h:panelGrid>
 
@@ -58,7 +58,7 @@
                 <p:column headerText="Ações">
                     <p:commandButton value="Editar" action="#{taskBean.update(tarefa)}"  styleClass="ui-button-secondary"/>
                     <p:spacer width="8%"/>
-                    <p:commandButton value="Excluir" action="#{taskBean.delete(tarefa)}" update="tabelaTarefas" styleClass="ui-button-danger"/>
+                    <p:commandButton value="Excluir" action="#{taskBean.delete(tarefa)}" onclick="return confirm('Tem certeza que deseja excluir esta tarefa?');" update="tabelaTarefas" styleClass="ui-button-danger"/>
                     <p:spacer width="8%"/>
                     <p:commandButton value="Concluir" action="#{taskBean.finishedTask(tarefa)}" rendered="#{tarefa.status eq 'Em andamento'}" update="tabelaTarefas" styleClass="ui-button-success"/>
                 </p:column>
@@ -70,12 +70,4 @@
         </p:panel>
     </h:form>
 </h:body>
-
-<!--<h:outputScript>
-    window.onpageshow = function (event) {
-        if (event.persisted || window.performance.navigation.type === 2) {
-            window.location.reload();
-        }
-    }
-</h:outputScript>-->
 </html>

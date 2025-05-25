@@ -5,45 +5,49 @@
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 
 <h:head>
-    <title>Listagem de Tarefas</title>
+    <title>Cadastro de Tarefa</title>
 </h:head>
 
 <h:body>
     <h:form id="formTarefa">
-        <p:panel header="Cadastrar Tarefa" style="width: 600px; margin: 0 auto;">
-            <p:panelGrid columns="2" columnClasses="label,value" style="width: 100%;" cellpadding="5">
+        <p:panel header="#{taskBean.editMode ? 'Atualizar Tarefa' : 'Cadastrar Tarefa'}" style="width: 80%; margin: 0 auto;">
+            <h:panelGrid columns="3" style="width: 100%;" cellpadding="5">
 
                 <!-- Título -->
-                <h:outputLabel for="titulo" value="Título:" />
+                <p:outputLabel for="titulo" value="Título:"/>
                 <p:inputText id="titulo" value="#{taskBean.task.title}" style="width: 100%;" />
+                <p:message for="titulo" style="color:red" />
 
                 <!-- Descrição -->
-                <h:outputLabel for="descricao" value="Descrição:" />
+                <p:outputLabel for="descricao" value="Descrição:" />
                 <p:inputTextarea id="descricao" value="#{taskBean.task.description}" rows="4" autoResize="false" style="width: 100%;" />
-
+                <br/>
                 <!-- Responsável -->
-                <h:outputLabel for="responsavel" value="Responsável:" />
+                <p:outputLabel for="responsavel" value="Responsável:"/>
                 <p:selectOneMenu id="responsavel" value="#{taskBean.task.responsible}" style="width: 100%;">
                     <f:selectItem itemLabel="Select" itemValue="" noSelectionOption="true" />
                     <f:selectItems value="#{taskBean.responsible}" var="resp" itemLabel="#{resp}" itemValue="#{resp}" />
                 </p:selectOneMenu>
+                <p:message for="responsavel" style="color:red" />
 
                 <!-- Prioridade -->
-                <h:outputLabel for="prioridade" value="Prioridade:" />
+                <p:outputLabel for="prioridade" value="Prioridade:"/>
                 <p:selectOneMenu id="prioridade" value="#{taskBean.task.priority}" style="width: 100%;">
                     <f:selectItem itemLabel="Select" itemValue="" noSelectionOption="true" />
                     <f:selectItems value="#{taskBean.priorities}" var="prio" itemLabel="#{prio}" itemValue="#{prio}" />
                 </p:selectOneMenu>
+                <p:message for="prioridade" style="color:red" />
 
                 <!-- Deadline -->
-                <h:outputLabel for="deadline" value="Deadline:" />
+                <p:outputLabel for="deadline" value="Deadline:" />
                 <p:calendar id="deadline" value="#{taskBean.task.deadline}" pattern="dd/MM/yyyy" style="width: 100%;" />
 
-            </p:panelGrid>
+            </h:panelGrid>
 
             <!-- Botão Cadastrar -->
             <div style="text-align: center; margin-top: 20px;">
-                <p:commandButton value="Cadastrar" action="#{taskBean.save()}" update="@form" />
+                <p:commandButton value="Cadastrar" action="#{taskBean.save()}" update="@form" style="margin-right: 8rem"/>
+                <p:button value="Voltar" outcome="listagem_tarefas.xhtml?faces-redirect=true" styleClass="ui-button-outlined" />
             </div>
         </p:panel>
     </h:form>

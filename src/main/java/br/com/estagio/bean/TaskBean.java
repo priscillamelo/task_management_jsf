@@ -1,11 +1,14 @@
 package br.com.estagio.bean;
 
+import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
@@ -30,13 +33,26 @@ public class TaskBean implements Serializable {
 	private TaskRepository taskRepository;
 	
 	private Task task;
+	private boolean isEditMode = false;
 	private List<Task> listTasks;
 
 	@PostConstruct
 	public void init() {
+		String idParam = FacesContext.getCurrentInstance()
+				.getExternalContext()
+				.getRequestParameterMap()
+				.get("id");
+		if(idParam != null && !idParam.isEmpty()) {
+			try {
+				this.task = taskRepository.findTaskById(Long.parseLong(idParam));
+				this.isEditMode = true;
+			} catch (Exception e) {
+				System.err.println("Erro ao buscar no TaskBean: " + e.getMessage());
+			}
+		} else {
+			clearTask();
+		}
 		loadListTasks();
-		clearTask();
-		System.out.println("TaskBean: Tarefas carregadas: " + (listTasks != null ? listTasks.size() : 0));
 	}
 	
 	public void loadListTasks() {
@@ -78,21 +94,40 @@ public class TaskBean implements Serializable {
 		loadListTasks();
 	}
 
-
 	public void save() {
 		try {
-            System.out.println("Salvando tarefa: " + task.getTitle());
-            taskRepository.saveTask(task);
-            loadListTasks(); // Recarrega a lista
-            clearTask(); // Limpa o formulário
-            //FacesMessage.FACES_MESSAGES.toString();
-            // Adicionar mensagem de sucesso (FacesMessage) aqui seria bom
-        } catch (Exception e) {
-            System.err.println("Erro ao salvar no TaskBean: " + e.getMessage());
-            // Adicionar mensagem de erro (FacesMessage) aqui seria bom
-            //FacesMessage.SEVERITY_ERROR.toString();
-        }
+			if (task.getId() == null) {
+				System.out.println("Salvando tarefa: " + task.getTitle());
+				taskRepository.saveTask(task);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Tarefa criada com sucesso."));
+			} else {
+				System.out.println("Atualizando tarefa: " + task.getTitle());
+				taskRepository.updateTask(task);
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage("Tarefa atualizada com sucesso."));
+			}
+			loadListTasks(); // Só recarrega a lista se salvou com sucesso
+			clearTask();     // Limpa o formulário após salvar
+
+			FacesContext.getCurrentInstance()
+					.getExternalContext()
+					.redirect("listagem_tarefas.xhtml");
+
+		} catch (Exception e) {
+			System.out.println("Erro ao salvar no TaskBean: " + e.getMessage());
+		}
 	}
+
+	public void update(Task task) {
+		try {
+			FacesContext.getCurrentInstance()
+					.getExternalContext()
+					.redirect("cadastrar_tarefa.xhtml?id=" + task.getId());
+		} catch (IOException e) {
+			FacesContext.getCurrentInstance().addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao redirecionar para a página de edição.", null));
+		}
+	}
+
 
 	public void findByTitleOrDesc(String titleOrDesc) {
 		try {
@@ -124,19 +159,7 @@ public class TaskBean implements Serializable {
 
 	public void finishedTask(Task task){
 		task.setStatus(Status.CONCLUIDO.getStatus());
-		update(task);
-	}
-
-	public void update(Task task) {
-		try {
-            System.out.println("Atualizando tarefa: " + task.getTitle());
-            taskRepository.updateTask(task);
-            loadListTasks(); // Recarrega a lista
-            clearTask(); // Limpa o formulário
-            // Adicionar mensagem de sucesso (FacesMessage) aqui seria bom
-        } catch (Exception e) {
-            System.err.println("Erro ao atualizar no TaskBean: " + e.getMessage());
-        }
+		taskRepository.updateTask(task);
 	}
 	
 	public void delete(Task task) {
@@ -178,6 +201,14 @@ public class TaskBean implements Serializable {
 
 	public Task getTask() {
 		return task;
+	}
+
+	public boolean isEditMode() {
+		return isEditMode;
+	}
+
+	public void setEditMode(boolean editMode) {
+		isEditMode = editMode;
 	}
 
 	public void setTask(Task task) {
