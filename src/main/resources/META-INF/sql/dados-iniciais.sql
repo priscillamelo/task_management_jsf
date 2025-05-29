@@ -1,5 +1,4 @@
 -- Insere 5 tarefas iniciais na tabela 'task'
--- Lembre-se: O ID será gerado automaticamente pelo banco de dados.
 
 INSERT INTO tasks (title, description, responsible, priority, deadline, status) VALUES ('Implementar Autenticação', 'Desenvolver a tela e a lógica backend para login de usuários.', 'João', 'ALTA', '2025-06-15', 'Em andamento');
 

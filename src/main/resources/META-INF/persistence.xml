@@ -5,9 +5,7 @@
     <persistence-unit name="task_managementPU" transaction-type="RESOURCE_LOCAL">
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         
-<!--         <jta-data-source>java:comp/env/jdbc/task_management_jsf</jta-data-source> -->
-
-        <properties>        	
+        <properties>
         	<!-- Configurações do banco de dados -->
             <property name="javax.persistence.jdbc.driver" value="org.postgresql.Driver"/>
             <property name="javax.persistence.jdbc.url" value="jdbc:postgresql://localhost:5432/tasks_management_jsf"/>
