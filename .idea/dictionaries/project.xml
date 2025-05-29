@@ -2,7 +2,10 @@
   <dictionary name="project">
     <words>
       <w>concluido</w>
+      <w>gerenciamento</w>
+      <w>inteface</w>
       <w>manutenibilidade</w>
+      <w>postgre</w>
     </words>
   </dictionary>
 </component>

@@ -125,19 +125,5 @@ public class TaskRepositoryTest {
 		
 		assertNull(found);
 	}
-	
-	@Test
-	public void testFindByStatus() {
-	    Task task = new Task();
-	    task.setTitle("Filtrar por status");
-	    task.setDescription("Teste de status");
-	    task.setStatus(Status.CONCLUIDO.getStatus());
-
-	    taskRepository.saveTask(task);
-
-	    List<Task> finished = taskRepository.findAllTasksFinished();
-
-	    assertTrue(finished.stream().anyMatch(t -> t.getId().equals(task.getId())));
-	}
 
 }

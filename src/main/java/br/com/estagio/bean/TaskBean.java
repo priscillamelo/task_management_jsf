@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -127,7 +126,6 @@ public class TaskBean implements Serializable {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erro ao redirecionar para a página de edição.", null));
 		}
 	}
-
 
 	public void findByTitleOrDesc(String titleOrDesc) {
 		try {
